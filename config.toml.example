@@ -1,0 +1,79 @@
+# Fuyao Agent Core 配置文件
+# 复制此文件到 agent-core 二进制同级目录下使用
+
+# ============================================
+# Server 配置
+# ============================================
+[server]
+# Server 地址
+base_url = "http://localhost:8080"
+
+# 轮询间隔（秒）
+poll_interval_secs = 5
+
+# 是否使用系统代理
+# true = 使用系统代理（适合远程连接）
+# false = 禁用代理（适合本地开发，避免 Shadowrocket 等干扰）
+use_system_proxy = false
+
+# ============================================
+# Agent 配置
+# ============================================
+[agent]
+# 服务 ID（注册后自动填充，无需手动修改）
+service_id = "YOUR_SERVICE_ID_HERE"
+
+# API Key（注册后自动填充，无需手动修改）
+api_key = "YOUR_API_KEY_HERE"
+
+# Agent 名称（可选）
+name = "news-proofreading"
+
+# ============================================
+# 执行器配置
+# ============================================
+[executor]
+# Docker 镜像
+image = "news-proofreading:latest"
+
+# 并发任务数（同时运行的最大任务数）
+capacity = 4
+
+# 任务超时时间（分钟）
+# 0 = 无限制，一直等待任务完成
+# >0 = 超时后强制停止容器
+timeout_minutes = 0
+
+# 内存限制（可选）
+# memory_limit = "4g"
+
+# ============================================
+# 路径配置
+# ============================================
+[paths]
+# 数据目录（可选，默认使用系统数据目录）
+data_dir = "./data"
+
+# 挂载配置
+# 将宿主机的目录挂载到容器内
+# 用于共享 skills、plugins、agents 和 pi-mono 配置
+
+# 1. pi-mono 模型配置（已内置到镜像中，可选挂载）
+# [[paths.mounts]]
+# host = "~/.pi/agent/models.json"
+# container = "/home/executor/.pi/agent/models.json"
+# readonly = true
+
+# 2. bocha API Key（供 fuyao-expert 搜索使用，已内置到镜像中，可选挂载）
+# [[paths.mounts]]
+# host = "./.env"
+# container = "/home/executor/.env"
+# readonly = true
+
+# 3. 宿主机只读目录挂载（可选）
+# 用于将宿主机的特定路径以只读方式挂载到容器内
+# 例如：挂载宿主机的参考数据目录到容器的 /host-readonly
+# [[paths.mounts]]
+# host = "/path/to/host/readonly-dir"
+# container = "/host-readonly"
+# readonly = true

@@ -1,0 +1,32 @@
+{
+  "providers": {
+    "kimi-coding": {
+      "baseUrl": "https://api.kimi.com/coding",
+      "api": "anthropic-messages",
+      "apiKey": "YOUR_KIMI_API_KEY_HERE",
+      "compat": {
+           "supportsDeveloperRole": false,
+           "supportsReasoningEffort": false
+         },
+      "models": [
+        {
+          "id": "my-kimi-for-coding",
+          "name": "kimi-for-coding",
+          "headers": {
+            "User-Agent": "KimiCLI/pi-mono"
+          },
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    }
+  }
+}
