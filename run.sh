@@ -34,7 +34,7 @@ ${TASK_PROMPT}
 EOF
 )
 
-pi -p -c --tools read,grep,find,ls,write,edit,bash,todo \
+pi -p -c --tools read,grep,find,ls,write,edit,bash,todo,web_fetch,web_search \
    --append-system-prompt /opt/master.md \
    "$STEP1_PROMPT" 2>&1 | tee /workspace/step1.log
 
@@ -64,7 +64,7 @@ STEP2_PROMPT=$(cat <<EOF
 EOF
 )
 
-pi -p -c --tools read,grep,find,ls,write,edit,bash,todo \
+pi -p -c --tools read,grep,find,ls,write,edit,bash,todo,web_fetch,web_search \
    --append-system-prompt /opt/master.md \
    "$STEP2_PROMPT" 2>&1 \
 || { echo "Warning: Step 2 failed" >&2; }

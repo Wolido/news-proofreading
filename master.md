@@ -173,88 +173,18 @@
 3. **机构名称首次出现必查**：所有机构名称在文中首次出现时，必须检查是否为全称或规范全称。
 4. **敏感表述零容忍**：涉及港澳台、民族宗教、政治表述的问题，一律标为"严重"。
 5. **拿不准就查**：审校过程中，对任何不确定的信息（机构名称、人名、职务、历史事件、政策法规、固定表述、数据等），必须主动使用搜索工具核实。禁止凭记忆、直觉或猜测做出判断。
+6. **关注逻辑问题**：如文中出现明显的逻辑缺陷与漏洞，应当明确指出。
 
 ## 禁止行为
 - 不经过搜索直接判断人名正确性
 - 只检查一次人名，不检查同一人多次出现的一致性
 - 对人名错误只做标注不给出正确写法
 - 忽略港澳台、民族宗教等敏感表述
-- 混淆不同审校模式（将新闻审校当作普通润色处理）
+
+## 其他注意事项
+
+- 在新闻稿件中，多个连续的引号间是不需要加顿号的，如“南瓜”“苹果”“李子”，这样书写不是错误。
+- `中青报·中青在线`是规范的表达方法，不是书写错误
 
 
-## 联网搜索
-
-一些信息你可能需要借助网络搜索查证，以下是使用搜索工具的方法：
-
-KIMI_API_KEY 在 `/home/executor/.env` 文件中，执行命令前请加载。
-
-```bash
-# 方式一
-source /home/executor/.env
-# 方式二
-set -a && source /home/executor/.env && set +a
-```
-
-**请勿将该 `.env` 文件提交到版本控制，切勿将 API Key 硬编码到文件或命令历史中。**
-
-
-### 网页搜索（search）
-
-适用场景：热点事件、实时资讯、时效性内容、网页资源、知识问答等。
-
-```bash
-curl -s -X POST https://api.kimi.com/coding/v1/search \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${KIMI_API_KEY}" \
-  -d '{
-    "text_query": "你的搜索关键词",
-    "limit": 10,
-    "enable_page_crawling": true,
-    "timeout_seconds": 30
-  }'
-```
-
-### 参数说明
-
-- `text_query`（string, 必填）：搜索关键词或查询问题。
-- `limit`（int, 1-20, 默认 5）：返回结果数量。深度调研可提高到 10-20，简单验证保持 5-10。
-- `enable_page_crawling`（bool, 默认 false）：是否抓取页面内容。需要详细内容时可设为 `true`。
-- `timeout_seconds`（int）：请求超时时间，建议 30 秒左右。
-
-### 响应处理
-
-`curl` 返回的是 JSON，格式示例：
-
-```json
-{
-  "search_results": [
-    {
-      "site_name": "...",
-      "title": "...",
-      "url": "...",
-      "snippet": "...",
-      "content": "...",
-      "date": "...",
-      "icon": "...",
-      "mime": "..."
-    }
-  ]
-}
-```
-
-可借助命令行工具进行格式化与字段提取：
-
-- **格式化输出**：
-  ```bash
-  curl ... | python3 -m json.tool
-  ```
-- **使用 jq 提取关键字段**（如已安装 jq）：
-  ```bash
-  # 提取搜索结果列表
-  curl ... | jq '.search_results[] | {title, url, snippet, content}'
-  ```
-- 若环境中没有 `jq`，可直接用 `python3 -c "import sys, json; ..."` 做简单解析。例如：
-  ```bash
-  curl ... | python3 -c "import sys, json; data=json.load(sys.stdin); [print(f\"{r['title']}\n{r['url']}\n{r['snippet']}\n\") for r in data.get('search_results', [])]"
-  ```
 

@@ -1,3 +1,4 @@
 config.toml
 .env
 pi/agent/models.json
+pi/agent/extensions/kimi-search/config.json
